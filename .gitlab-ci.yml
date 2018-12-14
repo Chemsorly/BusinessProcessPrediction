@@ -22,6 +22,10 @@ before_script:
   - source venv/bin/activate
 
 test:
+  tags:
+  - docker
+  - shell
+  - ubuntu
   script:
   - pip install -r requirements.txt
   - python run_tests.py
