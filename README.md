@@ -1,15 +1,15 @@
 Python scripts for Keras and Tensorflow to make business process predictions with Recurrent Neural Networks. It reads in a dataset event logs (in csv format), trains a network based on 
 
 # How to use
-(1) define a data definition in the folder datadefinitions
-  * a data definition describes the inputs data columns of a dataset and how to handle them
-  (1.1) implement GetRowStructure
-  (1.2) (optional) override CreateMatrices
-  (1.3) (optional) override MakePredictions
-(2) implement a start-script, that calls the utility.run.Train_And_Evaluate function with all parameters. Undefined parameters will be replaced by default values.
-  * see utility/preprocessing for all default values
-  * see c2k_train_and_predict.py for example implementation
-(3) run the script
+1. define a data definition in the folder datadefinitions  
+    a data definition describes the inputs data columns of a dataset and how to handle them  
+    1.1. implement GetRowStructure  
+    1.2. (optional) override CreateMatrices  
+    1.3. (optional) override MakePredictions  
+2. implement a start-script, that calls the utility.run.Train_And_Evaluate function with all parameters. Undefined parameters will be replaced by default values.  
+    see utility/preprocessing for all default values  
+    see c2k_train_and_predict.py for example implementation  
+3. run the script. the result will be a trained model (\*.h5) and the predictions of the test set (\*.csv)
 
 # Editable parameters
 * datageneration_pattern (enum): defines how the data is fed during training. use Generator if data does not fit into memory.
