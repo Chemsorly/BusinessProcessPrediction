@@ -1,4 +1,4 @@
-Python scripts for Keras and Tensorflow to make business process predictions with Recurrent Neural Networks. It reads in a dataset event logs (in csv format), trains a network based on 
+Python scripts for Keras and Tensorflow to make business process predictions with Recurrent Neural Networks. It reads in event logs (in csv format), trains a network based on supplied parameters and outputs the predictions of the test set.
 
 # How to use
 1. define a data definition in the folder datadefinitions  
@@ -55,4 +55,7 @@ This code has been used in
 # Credits
 This code was initially developed during my master thesis and extended during the TransformingTransports research project, which received funding from the EU’s Horizon 2020 R&I programme under grant 731932.  
 The Cargo 2000 Freight Tracking and Tracing Data Set is available at [UCL](https://archive.ics.uci.edu/ml/datasets/Cargo+2000+Freight+Tracking+and+Tracing) [(Citation)](http://dx.doi.org/10.1109/TSMC.2014.2347265)  
-Credits go to [verenich](https://github.com/verenich) whose [work](https://github.com/verenich/ProcessSequencePrediction) was used as base for this project.
+The BPI Challenge 2012 data set is available at [4tu](https://data.4tu.nl/repository/uuid:3926db30-f712-4394-aebc-75976070e91f)  
+The BPI Challenge 2017 data set is available at [4tu](https://data.4tu.nl/repository/uuid:5f3067df-f10b-45da-b98b-86ae4c7a310b)  
+The BPI Challenge 2018 data set is available at [4tu](https://data.4tu.nl/repository/uuid:3301445f-95e8-4ff0-98a4-901f1f204972)  
+Credits go to [verenich](https://github.com/verenich) whose [work](https://github.com/verenich/ProcessSequencePrediction) was used as base for this project [(doi)](https://doi.org/10.1007/978-3-319-59536-8_30).
