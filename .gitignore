@@ -1,0 +1,11 @@
+# ignore output files
+*.epochlog
+*.h5
+results*.csv
+
+# ignore uncompressed datasets
+datasets/*.csv
+datasets/*.csv.dict
+
+*.pyc
+*.tfevents*
