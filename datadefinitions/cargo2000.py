@@ -62,7 +62,6 @@ class Cargo2000(GenericDatadefinition):
             if verbose and args['datageneration_pattern'] != DataGenerationPattern.Generator:
                 sys.stdout.write("vectorized sequence {0} of {1}\r".format(i,len(sentences[0])))
                 sys.stdout.flush()
-        np.set_printoptions(threshold=np.nan)
         return {'X': X, 'y_t': y_t}
 
     def MakePredictions(self,model,args):
