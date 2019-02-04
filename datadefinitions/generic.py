@@ -90,7 +90,7 @@ class GenericDatadefinition(ABC):
 
                     # out if an prediction was requested for a productive system
                     #if productive_prediction:
-                    #    print('PredictedBuffer={}'.format(y_t)) 
+                    #    print('PredictedValue={}'.format(y_t)) 
 
                 sequenceid += 1
                 if args['verbose']:
