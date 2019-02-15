@@ -13,13 +13,13 @@ class BPI2012(GenericDatadefinition):
 
     def GetRowstructure(self):
         rowstructure = []
-        rowstructure.append((dt.String, 2 , dc.Onehot, ft.Train, 1.0)) #event label (onehot) 
-        rowstructure.append((dt.String, 5, dc.Onehot, ft.Train, 1.0 )) #resource   
-        rowstructure.append((dt.Float, 3, dc.Numeric, ft.Train, 1.0 )) #duration (always 0)
-        rowstructure.append((dt.Float, 4, dc.Numeric, ft.Train, 1.0 )) #timestamp    
+        rowstructure.append({'datatype':dt.String, 'columnindex':2 , 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0}) #event label (onehot) 
+        rowstructure.append({'datatype':dt.String, 'columnindex':5, 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0 }) #resource   
+        rowstructure.append({'datatype':dt.Float, 'columnindex':3, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #duration (always 0)
+        rowstructure.append({'datatype':dt.Float, 'columnindex':4, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #timestamp    
     
-        rowstructure.append((dt.String, 6, dc.Onehot, ft.Target )) #t/f
-        rowstructure.append((dt.String, 7, dc.none, ft.none )) #caseid
+        rowstructure.append({'datatype':dt.String, 'columnindex':6, 'dataclass':dc.Onehot, 'featuretype':ft.Target }) #t/f
+        rowstructure.append({'datatype':dt.String, 'columnindex':7, 'dataclass':dc.none, 'featuretype':ft.none }) #caseid
         return rowstructure
 
     def CreateMatrices(self,sentences,args):

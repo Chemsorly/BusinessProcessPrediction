@@ -18,7 +18,7 @@ def ReadInData(file, row_structure):
     firstLine = True
     totalrows = 0
 
-    #create return array with size of len(row_structure)
+    #create return array with size of len(row_structure) (columns)
     data = []
     intermediateData = []
     for i in range(len(row_structure)):
@@ -36,12 +36,12 @@ def ReadInData(file, row_structure):
                 intermediateData[i] = []
         for i in range(len(row_structure)):
             #cast by defined type
-            if row_structure[i][0] == dt.String:                
-                intermediateData[i].append(row[row_structure[i][1]])
-            elif row_structure[i][0] == dt.Float:
-                intermediateData[i].append(float(row[row_structure[i][1]]))
-            elif row_structure[i][0] == dt.Int:
-                intermediateData[i].append(int(row[row_structure[i][1]]))
+            if row_structure[i]['datatype'] == dt.String:                
+                intermediateData[i].append(row[row_structure[i]['columnindex']])
+            elif row_structure[i]['datatype'] == dt.Float:
+                intermediateData[i].append(float(row[row_structure[i]['columnindex']]))
+            elif row_structure[i]['datatype'] == dt.Int:
+                intermediateData[i].append(int(row[row_structure[i]['columnindex']]))
             else:
                 raise ValueError("unknown datatype encountered")
         firstLine = False
@@ -51,22 +51,51 @@ def ReadInData(file, row_structure):
     print("read {} rows".format(totalrows))
     return data
 
+def VerifyDatadefinition(datadefinition):
+    # set default values
+    for index, definition in enumerate(datadefinition):
+        if 'datatype' not in definition:
+            definition['datatype'] = dt.String
+            print("no value found for datadefinition.datatype at index {}, setting default value".format(index))
+        if 'dataclass' not in definition:
+            definition['dataclass'] = dc.Onehot
+            print("no value found for datadefinition.dataclass at index {}, setting default value".format(index))
+        if 'featuretype' not in definition:
+            definition['featuretype'] = ft.none
+            print("no value found for datadefinition.featuretype at index {}, setting default value".format(index))
+        if 'featureweight' not in definition:
+            definition['featureweight'] = 1.0
+            print("no value found for datadefinition.featureweight at index {}, setting default value".format(index))
+        if 'columnindex' not in definition:
+            raise ValueError("columnindex cannot be empty")
+
 def CalculateFeatures(args):
     catvectorlen = 0
     num_features = 1 # default 1 because indexing variable
     args['feature_weights'] = []
     for index, definition in enumerate(args['rowstructure']):
-        if definition[3] == ft.Train:
-            args['feature_weights'].append(definition[4]) #append feature weight
-            if definition[0] == dt.String:
-                if definition[2] == dc.Onehot:
+        # append feature weight, if non provide add default
+        if definition['featureweight']:
+            args['feature_weights'].append(definition['featureweight'])
+        else:
+            args['feature_weights'].append(1.0)
+
+        if definition['featuretype'] == ft.Train:            
+            if definition['datatype'] == dt.String:
+                if definition['dataclass'] == dc.Onehot:
                     catvectorlen += len(args['indices']['chars_indices'][index]) # onehot increases vector length by amount of classes (encoded as strings)
-                elif definition[2] == dc.Multilabel:
+                elif definition['dataclass'] == dc.Multilabel:
                     catvectorlen += len(args['indices']['unique_chars_indices'][index]) # ml increases vector length by amount of classes (encoded as chars)
-            elif definition[0] == dt.Float:
-                num_features += 1 # every numeric value increases by 1 (TODO: periodic)
-            elif definition[0] == dt.Int:
-                num_features += 1 # every numeric value increases by 1 (TODO: periodic)  
+            elif definition['datatype'] == dt.Float:
+                if definition['dataclass'] == dc.Periodic:
+                    num_features += 2 # periodic values increase by 2 (sin/cos)
+                else:
+                    num_features += 1 # every numeric value increases by 1
+            elif definition['datatype'] == dt.Int:
+                if definition['dataclass'] == dc.Periodic:
+                    num_features += 2 # periodic values increase by 2 (sin/cos)
+                else:
+                    num_features += 1 # every numeric value increases by 1            
 
     args['catvectorlen'] = catvectorlen
     print('category vectors length:', args['catvectorlen'])
@@ -146,7 +175,7 @@ def CreateDictionaries(data, rowstructure):
     }
 
     for i in range(len(data)): 
-        if isinstance(data[i][0][0], str) and (rowstructure[i][2] == dc.Onehot or rowstructure[i][2] == dc.Multilabel):
+        if isinstance(data[i][0][0], str) and (rowstructure[i]['dataclass'] == dc.Onehot or rowstructure[i]['dataclass'] == dc.Multilabel):
             # get chars
             buffer = map(lambda x : set(x),data[i])
             buffer = list(set().union(*buffer))
@@ -202,3 +231,27 @@ def CreateSentences(data):
                 buffer.append(data[i][j][0:k])
         sentences.append(buffer)
     return sentences
+
+def CreateNgramsFromLabels(data, rowstructure, ngram_size):
+    """ replaces string input labels with their ngram representation """
+
+    if type(ngram_size) is not int:
+        raise ValueError("ngram_size is not an integer")
+    if ngram_size < 1:
+        raise ValueError("ngram_size must be an integer >= 1")
+
+    for i, column in enumerate(rowstructure):
+        #only ngram string variables
+        if column['datatype'] == dt.String:
+            #iterate through data
+            for j in range(len(data[i])):
+                # iterate through words in sentence
+                newsentence = []
+                for k in range(len(data[i][j])):
+                    newword = []
+                    for l in range(ngram_size - 1,-1,-1):
+                        if  k-l >= 0:
+                            newword.append(data[i][j][k-l])
+                    newsentence.append(' '.join(newword))
+                data[i][j] = newsentence
+            print("created ngrams for column ", i)

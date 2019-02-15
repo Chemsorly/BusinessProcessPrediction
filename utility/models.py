@@ -26,7 +26,6 @@ def CreateModel(args):
         return __createRNN_Stateless(keras_impl,args) 
     else:
         raise ValueError("unkown model type")
-    return model
 
 def CreateCallbacks(args):
     callbacks = []

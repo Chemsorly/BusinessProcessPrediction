@@ -14,16 +14,16 @@ class Cargo2000(GenericDatadefinition):
     def GetRowstructure(self):
         rowstructure = []
         #rowstructure contains the following parameters: (input data type, column id, class of data, type of feature, weight of feature)
-        rowstructure.append((dt.String, 1 , dc.Onehot, ft.Train, 1.0)) #onehot event id
+        rowstructure.append({'datatype':dt.String, 'columnindex':1 , 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0}) #onehot event id
         #rowstructure.append((dt.String, 10, dc.Onehot, ft.Train, 1.0)) #onehot airport code
-        rowstructure.append((dt.Float, 3, dc.Numeric, ft.Train, 1.0)) #calculated time since start
-        rowstructure.append((dt.Float, 4, dc.Numeric, ft.Train, 1.0)) #timestamp
-        rowstructure.append((dt.Float, 2, dc.Numeric, ft.Train, 1.0)) #duration
-        rowstructure.append((dt.Float, 5, dc.Numeric, ft.Train, 1.0)) #planned duration
-        rowstructure.append((dt.Float, 6, dc.Numeric, ft.Train, 1.0)) #planned timestamp    
-        rowstructure.append((dt.Float, 8, dc.Numeric, ft.Target, 1.0)) #end timestamp
-        rowstructure.append((dt.Float, 9, dc.Numeric, ft.none, 1.0)) #planned end timestamp
-        rowstructure.append((dt.Int, 7, dc.none, ft.none, 1.0)) #processid
+        rowstructure.append({'datatype':dt.Float, 'columnindex':3, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0}) #calculated time since start
+        rowstructure.append({'datatype':dt.Float, 'columnindex':4, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0}) #timestamp
+        rowstructure.append({'datatype':dt.Float, 'columnindex':2, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0}) #duration
+        rowstructure.append({'datatype':dt.Float, 'columnindex':5, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0}) #planned duration
+        rowstructure.append({'datatype':dt.Float, 'columnindex':6, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0}) #planned timestamp    
+        rowstructure.append({'datatype':dt.Float, 'columnindex':8, 'dataclass':dc.Numeric, 'featuretype':ft.Target, 'featureweight':1.0}) #end timestamp
+        rowstructure.append({'datatype':dt.Float, 'columnindex':9, 'dataclass':dc.Numeric, 'featuretype':ft.none, 'featureweight':1.0}) #planned end timestamp
+        rowstructure.append({'datatype':dt.Int, 'columnindex':7, 'dataclass':dc.none, 'featuretype':ft.none, 'featureweight':1.0}) #processid
         return rowstructure
 
     def CreateMatrices(self,sentences,args):
@@ -107,7 +107,7 @@ class Cargo2000(GenericDatadefinition):
 
                     # out if an prediction was requested for a productive system
                     #if productive_prediction:
-                    #    print('PredictedValue={}'.format(y_t)) 
+                    #    print('PredictedBuffer={}'.format(y_t)) 
 
                 sequenceid += 1
                 if args['verbose']:

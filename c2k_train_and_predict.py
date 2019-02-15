@@ -54,7 +54,7 @@ utility.run.Train_And_Evaluate(
     learningrate = 0.002,            # the learning rate for the optimizer
     patience_earlystopping=40,       # patience for early stopping
     patience_reducelr=10,            # patience for lr reduction
-    processor=Processor.CPU,         # processor, cpu, gpu or tpu (gpu uses CUDNN based algorithms for lstm and gru if cudnn is set to true)
+    processor=Processor.GPU,         # processor, cpu, gpu or tpu (gpu uses CUDNN based algorithms for lstm and gru if cudnn is set to true)
     cudnn=True,                      # (if GPU) utilizes special nVidia-CuDNN LSTM and GRU implementations
     #debug
     save_model=True,                # saves the model file each checkpoint (set to False for TPU usage)

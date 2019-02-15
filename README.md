@@ -50,7 +50,7 @@ You can find ready-to-use docker images with all dependencies on [DockerHub](htt
 
 # References
 This code has been used in
-* Andreas Metzger, Adrian Neubauer: Considering Non-sequential Control Flows for Process Prediction with Recurrent Neural Networks. SEAA 2018: 268-272 [doi](https://doi.org/10.1109/SEAA.2018.00051) [Repository](https://github.com/Chemsorly/BusinessProcessOutcomePrediction)
+* Andreas Metzger, Adrian Neubauer: Considering Non-sequential Control Flows for Process Prediction with Recurrent Neural Networks. SEAA 2018: 268-272 [(doi)](https://doi.org/10.1109/SEAA.2018.00051) [(Repository)](https://github.com/Chemsorly/BusinessProcessOutcomePrediction)
 
 # Credits
 This code was initially developed during my master thesis and extended during the TransformingTransports research project, which received funding from the EU’s Horizon 2020 R&I programme under grant 731932.  

@@ -13,19 +13,19 @@ class BPI2017(GenericDatadefinition):
 
     def GetRowstructure(self):
         rowstructure = []
-        rowstructure.append((dt.String, 2 , dc.Onehot, ft.Train, 1.0)) #event label (onehot) 
-        rowstructure.append((dt.String, 9, dc.Onehot, ft.Train, 1.0 )) #loangoal   
-        rowstructure.append((dt.String, 10, dc.Onehot, ft.Train, 1.0 )) #action  
-        rowstructure.append((dt.String, 11, dc.Onehot, ft.Train, 1.0 )) #origin  
-        rowstructure.append((dt.Float, 3, dc.Numeric, ft.Train, 1.0 )) #duration (always 0)
-        rowstructure.append((dt.Float, 4, dc.Numeric, ft.Train, 1.0 )) #timestamp    
-        rowstructure.append((dt.Float, 5, dc.Numeric, ft.Train, 1.0 )) #creditscore    
-        rowstructure.append((dt.Float, 6, dc.Numeric, ft.Train, 1.0 )) #firstwithdrawal    
-        rowstructure.append((dt.Float, 7, dc.Numeric, ft.Train, 1.0 )) #requestedamount   
-        rowstructure.append((dt.Float, 8, dc.Numeric, ft.Train, 1.0 )) #monthlycost   
+        rowstructure.append({'datatype':dt.String, 'columnindex':2 , 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0}) #event label (onehot) 
+        rowstructure.append({'datatype':dt.String, 'columnindex':9, 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0 }) #loangoal   
+        rowstructure.append({'datatype':dt.String, 'columnindex':10, 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0 }) #action  
+        rowstructure.append({'datatype':dt.String, 'columnindex':11, 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0 }) #origin  
+        rowstructure.append({'datatype':dt.Float, 'columnindex':3, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #duration (always 0)
+        rowstructure.append({'datatype':dt.Float, 'columnindex':4, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #timestamp    
+        rowstructure.append({'datatype':dt.Float, 'columnindex':5, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #creditscore    
+        rowstructure.append({'datatype':dt.Float, 'columnindex':6, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #firstwithdrawal    
+        rowstructure.append({'datatype':dt.Float, 'columnindex':7, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #requestedamount   
+        rowstructure.append({'datatype':dt.Float, 'columnindex':8, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #monthlycost   
     
-        rowstructure.append((dt.String, 12, dc.Onehot, ft.Target )) #t/f
-        rowstructure.append((dt.String, 13, dc.none, ft.none )) #caseid
+        rowstructure.append({'datatype':dt.String, 'columnindex':12, 'dataclass':dc.Onehot, 'featuretype':ft.Target }) #t/f
+        rowstructure.append({'datatype':dt.String, 'columnindex':13, 'dataclass':dc.none, 'featuretype':ft.none }) #caseid
         return rowstructure
 
     def CreateMatrices(self,sentences,args):
@@ -80,7 +80,6 @@ class BPI2017(GenericDatadefinition):
             if verbose and args['datageneration_pattern'] != DataGenerationPattern.Generator:
                 sys.stdout.write("vectorized sequence {0} of {1}\r".format(i,len(sentences[0])))
                 sys.stdout.flush()
-
         return {'X': X, 'y_t': y_t}
 
     def MakePredictions(self,model,args):

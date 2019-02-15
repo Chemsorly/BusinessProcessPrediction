@@ -40,7 +40,7 @@ def Train_And_Evaluate(**kwargs):
         __Evaluate_Model(args, model)
     except Exception as ex:
         # catch all, throw one exception for parsing
-        raise exceptions.ConducthorError(ex)
+        raise exceptions.ConductorError(ex)
 
 def __ReadData(indata, args):
     #read from csv file
@@ -51,7 +51,10 @@ def __ReadData(indata, args):
     return data
 
 def __Preprocessing(args): 
-    #read from csv file
+    # clean datadefinion
+    dataoperations.VerifyDatadefinition(args['rowstructure'])
+
+    # read from csv file
     data = __ReadData("eventlog",args)
 
     # offset data (if < 0) and create divisors

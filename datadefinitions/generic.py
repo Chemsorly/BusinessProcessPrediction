@@ -38,7 +38,7 @@ class GenericDatadefinition(ABC):
             # target matrix
             for k, struc in enumerate(rowstructure): 
                 # target variables
-                if struc[3] == ft.Target:
+                if struc['featuretype'] == ft.Target:
                     # TODO: more than 1 target
                     y_t[i,0] = sentences[k][i][0]/divisors[k] #already offsetted
 
@@ -90,7 +90,7 @@ class GenericDatadefinition(ABC):
 
                     # out if an prediction was requested for a productive system
                     #if productive_prediction:
-                    #    print('PredictedValue={}'.format(y_t)) 
+                    #    print('PredictedBuffer={}'.format(y_t)) 
 
                 sequenceid += 1
                 if args['verbose']:
@@ -109,15 +109,15 @@ class GenericDatadefinition(ABC):
             catvectorpad = 0  
             # train matrix
             for k, struc in enumerate(rowstructure):                         
-                if struc[3] == ft.Train:
+                if struc['featuretype'] == ft.Train:
                     # manage strings/labels
-                    if struc[0] == dt.String:
-                        if struc[2] == dc.Onehot:
+                    if struc['datatype'] == dt.String:
+                        if struc['dataclass'] == dc.Onehot:
                             for c in indices["chars"][k]:
                                 if c == sentences[k][index][j]:
                                     X[index, j+leftpad, catvectorpad + indices["chars_indices"][k][c]] = weights[k]
                             catvectorpad += len(indices["chars_indices"][k])
-                        elif struc[2] == dc.Multilabel:
+                        elif struc['dataclass'] == dc.Multilabel:
                             for c in indices["unique_chars"][k]:
                                 if c in sentences[k][index][j]:
                                     X[index, j+leftpad, catvectorpad + indices["unique_chars_indices"][k][c]] = weights[k]
@@ -125,19 +125,19 @@ class GenericDatadefinition(ABC):
                         else:
                             raise NotImplementedError("string dataclass not implemented")
                     # manage numerics
-                    elif struc[0] == dt.Float:
-                        if struc[2] == dc.Numeric:
+                    elif struc['datatype'] == dt.Float:
+                        if struc['dataclass'] == dc.Numeric:
                             X[index, j+leftpad, catvectorpad] = ((sentences[k][index][j]/divisors[k]) * weights[k]) 
                             catvectorpad += 1
-                        elif struc[2] == dc.Periodic:
+                        elif struc['dataclass'] == dc.Periodic:
                             raise NotImplementedError("periodic dataclass not implemented")
                         else:
                             raise NotImplementedError("numeric dataclass not implemented")
                     # special case: no dataclasses for int; treat as numeric
-                    elif struc[0] == dt.Int:                                
+                    elif struc['datatype'] == dt.Int:                                
                         X[index, j+leftpad, catvectorpad] = ((sentences[k][index][j]/divisors[k]) * weights[k]) 
                         catvectorpad += 1
                     else:
-                        raise NotImplementedError("dataclass not implemented")
+                        raise NotImplementedError("datatype not implemented")
             X[index, j+leftpad, catvectorpad] = j + 1 #index    
 

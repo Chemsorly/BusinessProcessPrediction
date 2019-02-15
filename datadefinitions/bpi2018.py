@@ -13,15 +13,15 @@ class BPI2018(GenericDatadefinition):
 
     def GetRowstructure(self):
         rowstructure = []
-        rowstructure.append((dt.String, 2 , dc.Onehot, ft.Train, 1.0)) #event label (onehot)
-        rowstructure.append((dt.String, 5 , dc.Multilabel, ft.Train, 1.0)) #penalties (multilabel)
-        rowstructure.append((dt.String, 9, dc.Onehot, ft.Target, 1.0 )) #rejected
-        #rowstructure.append(("float", 3, "numerical", "train" )) #duration (always 0)
-        rowstructure.append((dt.Float, 4, dc.Numeric, ft.Train, 1.0 )) #timestamp
-        rowstructure.append((dt.Float, 6, dc.Numeric, ft.Train, 1.0 )) #applied for
-        rowstructure.append((dt.Float, 7, dc.Numeric, ft.Train, 1.0 )) #paid
-        rowstructure.append((dt.Float, 8, dc.Numeric, ft.Train, 1.0 )) #penalties    
-        rowstructure.append((dt.String, 10, dc.none, ft.none, 1.0 )) #caseid
+        rowstructure.append({'datatype':dt.String, 'columnindex':2 , 'dataclass':dc.Onehot, 'featuretype':ft.Train, 'featureweight':1.0}) #event label (onehot)
+        rowstructure.append({'datatype':dt.String, 'columnindex':5 , 'dataclass':dc.Multilabel, 'featuretype':ft.Train, 'featureweight':1.0}) #penalties (multilabel)
+        rowstructure.append({'datatype':dt.String, 'columnindex':9, 'dataclass':dc.Onehot, 'featuretype':ft.Target, 'featureweight':1.0 }) #rejected
+        #rowstructure.append({"float", 3, "numerical", "train" }) #duration (always 0)
+        rowstructure.append({'datatype':dt.Float, 'columnindex':4, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #timestamp
+        rowstructure.append({'datatype':dt.Float, 'columnindex':6, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #applied for
+        rowstructure.append({'datatype':dt.Float, 'columnindex':7, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #paid
+        rowstructure.append({'datatype':dt.Float, 'columnindex':8, 'dataclass':dc.Numeric, 'featuretype':ft.Train, 'featureweight':1.0 }) #penalties    
+        rowstructure.append({'datatype':dt.String, 'columnindex':10, 'dataclass':dc.none, 'featuretype':ft.none, 'featureweight':1.0 }) #caseid
         return rowstructure
 
     def CreateMatrices(self,sentences,args):
