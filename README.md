@@ -48,6 +48,19 @@ Python scripts for Keras and Tensorflow to make business process predictions wit
 # Docker images
 You can find ready-to-use docker images with all dependencies on [DockerHub](https://cloud.docker.com/repository/docker/chemsorly/keras-tensorflow). Using the GPU variant requires a working installation of [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker).
 
+# Getting Started
+```
+git clone https://github.com/Chemsorly/BusinessProcessPrediction.git
+cd BusinessProcessPrediction
+pip install -r requirements.txt
+
+# the datasets needs to be unzipped in the datasets folder
+unzip ./datasets/cargo2000.csv
+
+# you might wanna set CPU/GPU depending on your install
+python c2k_train_and_predict.py
+```
+
 # References
 This code has been used in
 * Andreas Metzger, Adrian Neubauer: Considering Non-sequential Control Flows for Process Prediction with Recurrent Neural Networks. SEAA 2018: 268-272 [(doi)](https://doi.org/10.1109/SEAA.2018.00051) [(Repository)](https://github.com/Chemsorly/BusinessProcessOutcomePrediction)
