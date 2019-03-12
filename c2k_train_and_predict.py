@@ -3,11 +3,12 @@
 import utility.run
 import os
 import sys
+import uuid
 from utility.enums import DataGenerationPattern, Processor, RnnType
 
-""" # check for env variable for cpu/gpu environment detection (CONDUCTHOR)
+""" # check for env variable for cpu/gpu environment detection (CONDUCTOR)
 TODO: implement
-processorType = os.environ.get("CONDUCTHOR_TYPE")
+processorType = os.environ.get("CONDUCTOR_TYPE")
 if processorType == "cpu":
     print("cpu environment detected")
 elif processorType == "gpu":
@@ -24,12 +25,15 @@ datadef = datadef.Cargo2000()
 if len(sys.argv) > 1:
     param = float(sys.argv[1])
 
+# generate guid
+guid = uuid.uuid4()
+
 # call
 utility.run.Train_And_Evaluate(
     #data
     eventlog="datasets/cargo2000.csv",  # file to read in
     datadefinition=datadef,          # the data / matrix definitions
-    running=0,                       # iterable / suffix
+    running=guid,                       # iterable / suffix
     datageneration_pattern = DataGenerationPattern.Fit, # Fit: uses the classical approach and loads everything into memory; Generator: uses the python generator pattern
     #regularization/dataset manipulation
     bagging=False,                   # perform bagging? 
@@ -54,10 +58,10 @@ utility.run.Train_And_Evaluate(
     learningrate = 0.002,            # the learning rate for the optimizer
     patience_earlystopping=40,       # patience for early stopping
     patience_reducelr=10,            # patience for lr reduction
-    processor=Processor.GPU,         # processor, cpu, gpu or tpu (gpu uses CUDNN based algorithms for lstm and gru if cudnn is set to true)
+    processor=Processor.CPU,         # processor, cpu, gpu or tpu (gpu uses CUDNN based algorithms for lstm and gru if cudnn is set to true)
     cudnn=True,                      # (if GPU) utilizes special nVidia-CuDNN LSTM and GRU implementations
     #debug
     save_model=True,                # saves the model file each checkpoint (set to False for TPU usage)
     tensorboard=False,               # outputs tensorboard compatible eventlog into ./graph folder for visualization
+    target_host='',                  # sends a POST request with all the result files (result file and model) to the host
     verbose=False)                   # prints out a lot of progress reports. do NOT use with cluster learning
-
