@@ -25,11 +25,10 @@ datadef = datadef.BPI2017()
 if len(sys.argv) > 1:
     param = float(sys.argv[1])
 
-# generate guid
-guid = uuid.uuid4()
-
 # call
 for i in range(100):
+    # generate guid
+    guid = uuid.uuid4()
     utility.run.Train_And_Evaluate(
         #data
         datadefinition=datadef,          # the data / matrix definitions
