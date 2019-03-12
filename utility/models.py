@@ -33,10 +33,10 @@ def CreateCallbacks(args):
 
     callbacks.append(keras_impl.callbacks.EarlyStopping(monitor='val_loss', patience=args['patience_earlystopping']))
     if(args['save_model'] == True):
-        callbacks.append(keras_impl.callbacks.ModelCheckpoint('{}-model.h5'.format(args['running']), monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=False, mode='auto'))
+        callbacks.append(keras_impl.callbacks.ModelCheckpoint(args['modelfilename'], monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=False, mode='auto'))
     if(args['processor'] != Processor.TPU):
         callbacks.append(keras_impl.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=args['patience_reducelr'], verbose=0, mode='auto', min_delta=0.0001, cooldown=0, min_lr=0))
-    callbacks.append(keras_impl.callbacks.CSVLogger('{}-epochlogs.epochlog'.format(args['running'])))
+    callbacks.append(keras_impl.callbacks.CSVLogger('{}_epochlogs.epochlog'.format(args['running'])))
     if args['tensorboard'] == True:
         callsbacks.append(tensorboard_cb = TensorBoard(log_dir='./graph', histogram_freq=0, write_graph=True, write_images=True))
     return callbacks

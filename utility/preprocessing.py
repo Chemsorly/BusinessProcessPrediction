@@ -33,6 +33,7 @@ def Parse_Args(**kwargs):
     outArgs['tensorboard'] = False
     outArgs['save_model'] = False
     outArgs['datageneration_pattern'] = DataGenerationPattern.Fit
+    outArgs['target_host'] = ''
 
     # copy in data
     for key,value in kwargs.items():

@@ -9,9 +9,17 @@ import datadefinitions.cargo2000generic as cargo2000generic
 import datadefinitions.bpi2012 as bpi2012
 import datadefinitions.bpi2017 as bpi2017
 import datadefinitions.bpi2018 as bpi2018
+import datadefinitions.road_traffic_fine_management as road_traffic_fine_management
+import datadefinitions.sepsis as sepsis
 
 # test all testsets
-for i, test_set in enumerate([cargo2000.Cargo2000(),cargo2000generic.Cargo2000(),bpi2012.BPI2012(),bpi2017.BPI2017(),bpi2018.BPI2018()]):
+for i, test_set in enumerate([cargo2000.Cargo2000(),
+        cargo2000generic.Cargo2000(),
+        bpi2012.BPI2012(),
+        bpi2017.BPI2017(),
+        bpi2018.BPI2018(),
+        road_traffic_fine_management.RoadTrafficFine(),
+        sepsis.Sepsis()]):
     # run with low profile and default values to speed up tests
     utility.run.Train_And_Evaluate(
         datageneration_pattern = DataGenerationPattern.Generator,

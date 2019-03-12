@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from utility.enums import DataType as dt
 from utility.enums import DataClass as dc
 from utility.enums import FeatureType as ft
+from utility.enums import DataGenerationPattern, Processor, RnnType
 
 class GenericDatadefinition(ABC): 
     """ generic implementation for the functions CreateMatrices and MakePredictions. needs to override GetDataset and GetRowstructure """
@@ -50,7 +51,7 @@ class GenericDatadefinition(ABC):
     def MakePredictions(self,model,args):
         #TODO
         print('Make predictions...')
-        with open('{}-results.csv'.format(args['running']), 'w', newline='') as csvfile:
+        with open(args['testresultsfilename'], 'w', newline='') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             spamwriter.writerow(["sequenceid","sequencelength","prefix","completion","prediction","gt_prediction","gt_planned","gt_instance","prefix_activities","suffix_activities"])
             sequenceid = 0
@@ -69,7 +70,7 @@ class GenericDatadefinition(ABC):
                         break # make no prediction for this case, since this case has ended already 
 
                     # predict
-                    y = model.predict(__EncodePrediction(cropped_data, args['rowstructure'], args['divisors'], args['indices'],args['feature_weights'], args['num_features'], args['catvectorlen'], args['maxlen']), verbose=0)
+                    y = model.predict(self.__EncodePrediction(cropped_data, args['rowstructure'], args['divisors'], args['indices'],args['feature_weights'], args['num_features'], args['catvectorlen'], args['maxlen']), verbose=0)
                     y_t = y[0][0]
                     y_t = (y_t * args['divisors'][6]) + args['offsets'][6] #undo offset and multiply by divisor to un-normalize
                     prediction = y_t

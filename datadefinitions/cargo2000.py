@@ -66,7 +66,7 @@ class Cargo2000(GenericDatadefinition):
 
     def MakePredictions(self,model,args):
         print('Make predictions...')
-        with open('{}-results.csv'.format(args['running']), 'w', newline='') as csvfile:
+        with open(args['testresultsfilename'], 'w', newline='') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             spamwriter.writerow(["sequenceid","sequencelength","prefix","completion","prediction","gt_prediction","gt_planned","gt_instance","prefix_activities","suffix_activities"])
             sequenceid = 0

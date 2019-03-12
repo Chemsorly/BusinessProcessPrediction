@@ -20,6 +20,7 @@ import utility.preprocessing as preprocessing
 import utility.configuration as configuration
 import utility.generator as generator
 import utility.exceptions as exceptions
+import utility.send_results as send_results
 from utility.enums import Processor, DataGenerationPattern
 
 def Train_And_Evaluate(**kwargs):
@@ -53,6 +54,10 @@ def __ReadData(indata, args):
 def __Preprocessing(args): 
     # clean datadefinion
     dataoperations.VerifyDatadefinition(args['rowstructure'])
+
+    #define result filenames
+    args['modelfilename'] = '{}_model.h5'.format(args['running'])
+    args['testresultsfilename'] = '{}_results.csv'.format(args['running'])
 
     # read from csv file
     data = __ReadData("eventlog",args)
@@ -185,26 +190,26 @@ def __Evaluate_Model(args,model = None):
     print('Load model for predictions...') 
 
     # save model file if not exists     
-    if os.path.exists('{}-model.h5'.format(args['running'])) == False:
-        model.save('{}-model.h5'.format(args['running']))  
+    if os.path.exists(args['modelfilename']) == False:
+        model.save(args['modelfilename'])  
         print('Model file does not exist, saving...')
     
     if args['save_model'] == False and model is not None:
         # cannot load model because it's not saved, but it is supplied  
         if args['processor'] == Processor.TPU:
             args['processor'] = Processor.CPU # make predictions on a cpu based model
-            model.save_weights('{}-modelweights.h5'.format(args['running']))
+            model.save_weights('{}_modelweights.h5'.format(args['running']))
             import tensorflow as tf # if it runs on tpu: tensorflow
             tf.keras.backend.clear_session()
             model = models.CreateModel(args)
-            model.load_weights('{}-modelweights.h5'.format(args['running']))
+            model.load_weights('{}_modelweights.h5'.format(args['running']))
             print('tpu detected: Model saved with last weights and converted to cpu model for cpu inference')
         else: 
             print('Model loaded from memory')
     elif args['save_model'] == True:
         # model loaded from file, by recreating the model and loading weights
         model = models.CreateModel(args)
-        model.load_weights('{}-model.h5'.format(args['running']))
+        model.load_weights(args['modelfilename'])
         print('Model loaded from checkpoint')
     else:
         raise ValueError("no model for predictions supplied / found")        
@@ -213,3 +218,7 @@ def __Evaluate_Model(args,model = None):
     #evaluate
     args['datadefinition'].MakePredictions(model,args)    
     configuration.Clean_Session()
+
+    #send results
+    if args['target_host'] != '':
+        send_results.SendResultFiles(args, [args['modelfilename'], args['testresultsfilename']])

@@ -1,7 +1,7 @@
 # ignore output files
 *.epochlog
 *.h5
-results*.csv
+*results.csv
 
 # ignore uncompressed datasets
 datasets/*.csv

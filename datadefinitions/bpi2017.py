@@ -84,7 +84,7 @@ class BPI2017(GenericDatadefinition):
 
     def MakePredictions(self,model,args):
         print('Make predictions...')
-        with open('{}-results.csv'.format(args['running']), 'w', newline='') as csvfile:
+        with open(args['testresultsfilename'], 'w', newline='') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             spamwriter.writerow(["sequenceid","sequencelength","prefix","completion","prediction","gt_prediction","gt_planned","gt_instance","prefix_activities","suffix_activities"])
             sequenceid = 0
@@ -115,8 +115,10 @@ class BPI2017(GenericDatadefinition):
                     output.append(ground_truth)
                     output.append(0.5) # binary prediction with [0...1]
                     output.append(ground_truth_processid)
-                    output.append(' '.join(prefix_activities))
-                    output.append(' '.join(suffix_activities))
+                    output.append(' ')
+                    output.append(' ')
+                    #output.append(' '.join(prefix_activities))
+                    #output.append(' '.join(suffix_activities))
                     spamwriter.writerow(output)    
 
                 sequenceid += 1
